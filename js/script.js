@@ -1,4 +1,3 @@
-// Descrizione:
 // Visualizzare in pagina 5 numeri casuali. Da lì parte un timer di 30 secondi.
 // Dopo 30 secondi i numeri scompaiono e l'utente deve inserire, uno alla volta, 
 // i numeri che ha visto precedentemente, tramite il prompt().
@@ -12,49 +11,40 @@
 // stabilire le costanti 
 const numberShow = document.querySelector('#number');
 const goBtn = document.querySelector('#start-button')
-const correctNumber = [];
 
 goBtn.addEventListener("click", function() {
-    const userNumberArray = [];
     // creare in maniera random un array di 5 numeri da visulizzare nel DOM
     const randArray = generateRandom(5, 1 , 20);
-    console.log(randArray);
     numberShow.innerHTML = randArray.join(" ");
+    console.log(randArray);
 
-    // impostare un timer di 30 secondi per la visulizzazione 
-    setTimeout(() => numberShow.innerHTML = '', 3000);
+    // impostare un timer di 30 secondi dopo i quali viene pulito il DOM
+    setTimeout(() => numberShow.innerHTML = '', 30000);
 
-    setTimeout(() => {
-
-         // chiedere all'utente di inserire i 5 numeri singolarmente 
-         console.log(userNumberArray);
-        for (let i = 0; i < randArray.length; i++ ) {
+    setTimeout(() =>{
+        //array di numeri azzeccati 
+        const correctNumber = [];
+        // chiedere all'utente di inserire i 5 numeri singolarmente 
+        for (let i = 0; i < 5; i++ ) {
             const userNumber = parseInt(prompt('inserire i numeri singolarmente'));
-            userNumberArray.push(userNumber);
+            // userNumberArray.push(userNumber);
 
             // controllare se i numeri corrispondono o meno 
-            if (userNumberArray.includes(randArray)) {
-                correctNumber.push(userNumberArray);
-                console.log(correctNumber);
-                alert("corrisponde")
+            if (randArray.includes(userNumber) && !correctNumber.includes(userNumber)) {
+                correctNumber.push(userNumber);
             }
         };
 
-        alert(`Hai indovinato ${correctNumber.length} numeri: ${correctNumber}`); 
-
-    }, 3100);
-    
-
-    // stampare il risultato 
-
+        console.log(`Hai indovinato ${correctNumber.length} numeri: ${correctNumber}`); 
+    }   
+    , 31000);
 });
 
-// function
+// FUNCTIONS
 function generateRandom(arrayLength, numMin, numMax) {
-
     // numeri all'interno di un'arrey 
     const generateRandom = [];
-
+    // controllo che non ci siano altri numeri uguali 
     while(generateRandom.length < arrayLength) {
         const randomNum = getRndInteger(numMin, numMax);
         if (!generateRandom.includes(randomNum)) {
@@ -63,7 +53,7 @@ function generateRandom(arrayLength, numMin, numMax) {
     }
     return generateRandom;
 }
-
+// funzione per generare numeri x casuali da un min a un max 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
